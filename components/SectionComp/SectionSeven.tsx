@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import secfour from "@/public/SectionFourImg/secfour.jpg";
 import secfour2 from "@/public/SectionFourImg/secfour2.jpg";
@@ -7,6 +8,8 @@ import threeimg from "@/public/SectionThreeImg/three.webp";
 import fourimg from "@/public/SectionThreeImg/four.webp";
 import Image from "next/image";
 import { BsPlusCircle } from "react-icons/bs";
+import { motion, useInView, useAnimation } from "framer-motion";
+import { useRef, useEffect, Fragment } from "react";
 
 const CardData = [
   {
@@ -48,8 +51,20 @@ const CardData = [
 ];
 
 export default function SectionSeven() {
+  const secRef = useRef(null);
+  const inViewRef = useInView(secRef, {
+    // root: secRef,
+    once: true,
+    amount: 0.5,
+  });
+  const animate = useAnimation();
+  useEffect(() => {
+    if (inViewRef) {
+      animate.start("visible");
+    }
+  }, [inViewRef]);
   return (
-    <section className="main-container mt-20 mb-20">
+    <section ref={secRef} className="main-container mt-20 mb-20">
       <div className=" flex flex-col justify-center items- relative">
         <div className="text-3xl text-center font-bold text-black">
           Our Gallary
@@ -57,7 +72,27 @@ export default function SectionSeven() {
         <div className="mt-16">
           <div className="grid grid-cols-3 gap-2 relative">
             {CardData.map((data, index) => (
-              <div
+              <motion.div
+                variants={{
+                  hidden: {
+                    y: 5,
+                    opacity: 0,
+                  },
+                  visible: (index) => ({
+                    y: 0,
+                    opacity: 1,
+                    transition: {
+                      delay: index * 0.2,
+                      ease: "easeInOut",
+                    },
+                  }),
+                }}
+                initial="hidden"
+                animate={animate}
+                transition={{
+                  duration: 0.5,
+                }}
+                custom={index}
                 className="relative aspect-square group rounded-lg overflow-clip "
                 key={index}
               >
@@ -66,7 +101,7 @@ export default function SectionSeven() {
                   <BsPlusCircle className="text-3xl" />
                   <div className="text-sm">{data.title}</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

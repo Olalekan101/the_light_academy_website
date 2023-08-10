@@ -1,8 +1,11 @@
+"use client";
 import Image from "next/image";
 import sectionfourimg from "@/public/section_4img.png";
 import secfour from "@/public/SectionFourImg/secfour.jpg";
 import secfour2 from "@/public/SectionFourImg/secfour2.jpg";
 import secfour3 from "@/public/SectionFourImg/secfour3.jpg";
+import { motion, useInView, useAnimation } from "framer-motion";
+import { useRef, useEffect, Fragment } from "react";
 
 const CardData = [
   {
@@ -89,8 +92,20 @@ function Card({
 }
 
 export default function SectionFour() {
+  const secRef = useRef(null);
+  const inViewRef = useInView(secRef, {
+    // root: secRef,
+    once: true,
+    amount: 0.8,
+  });
+  const animate = useAnimation();
+  useEffect(() => {
+    if (inViewRef) {
+      animate.start("visible");
+    }
+  }, [inViewRef]);
   return (
-    <section className=" relative h-full mt-[10px] ">
+    <section ref={secRef} className=" relative h-full mt-[10px] ">
       <div className=" main-container flex flex-col gap-6 justify-center mt-16 w-full relative z-10">
         <div className="text-3xl text-center font-bold text-white">
           Our Classes
@@ -98,7 +113,30 @@ export default function SectionFour() {
         <div className="main-container">
           <section className="flex justify-between items-center gap-2 mt-16">
             {CardData.map((card, index) => (
-              <div key={index} className="">
+              <motion.div
+                variants={{
+                  hidden: {
+                    y: 5,
+                    opacity: 0,
+                  },
+                  visible: (index) => ({
+                    y: 0,
+                    opacity: 1,
+                    transition: {
+                      delay: index * 0.2,
+                      ease: "easeInOut",
+                    },
+                  }),
+                }}
+                initial="hidden"
+                animate={animate}
+                transition={{
+                  duration: 0.5,
+                }}
+                custom={index}
+                key={index}
+                className=""
+              >
                 <Card
                   title={card.title}
                   subtitle={card.subtitle}
@@ -107,7 +145,7 @@ export default function SectionFour() {
                   educator={6}
                   year={3.5}
                 />
-              </div>
+              </motion.div>
             ))}
           </section>
         </div>

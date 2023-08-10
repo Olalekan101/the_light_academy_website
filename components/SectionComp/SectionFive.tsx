@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
 import secfive from "@/public/SectionFiveImg/secfive.png";
 import secfive2 from "@/public/SectionFiveImg/secfive2.png";
 import secfive3 from "@/public/SectionFiveImg/secfive3.png";
+import { motion, useInView, useAnimation } from "framer-motion";
+import { useRef, useEffect, Fragment } from "react";
 
 const CardData = [
   {
@@ -69,22 +72,60 @@ function Card({ imgurl, title, subtitle, description }: CardProps) {
 }
 
 export default function SectionFive() {
+  const secRef = useRef(null);
+  const inViewRef = useInView(secRef, {
+    // root: secRef,
+    once: true,
+    amount: 0.8,
+  });
+  const animate = useAnimation();
+  useEffect(() => {
+    if (inViewRef) {
+      animate.start("visible");
+    }
+  }, [inViewRef]);
   return (
-    <section className=" main-container relative h-full mt-[150px] mb-[20px]">
+    <section
+      ref={secRef}
+      className=" main-container relative h-full mt-[150px] mb-[20px]"
+    >
       <div className="flex flex-col">
         <div className="text-3xl text-center font-bold text-black mt-5">
           Our Teacher
         </div>
         <div className="flex justify-between gap-2 items-start  mt-20">
           {CardData.map((card, index) => (
-            <div key={index} className="">
+            <motion.div
+              variants={{
+                hidden: {
+                  y: 5,
+                  opacity: 0,
+                },
+                visible: (index) => ({
+                  y: 0,
+                  opacity: 1,
+                  transition: {
+                    delay: index * 0.2,
+                    ease: "easeInOut",
+                  },
+                }),
+              }}
+              initial="hidden"
+              animate={animate}
+              transition={{
+                duration: 0.5,
+              }}
+              custom={index}
+              key={index}
+              className=""
+            >
               <Card
                 description={card.description}
                 imgurl={card.imgurl}
                 title={card.title}
                 subtitle={card.subtitle}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -10,7 +10,8 @@ import { useState } from "react";
 export default function HeroSection() {
   const [complete, setComplete] = useState(false);
   const herotext = ["We", "Help", "To", "Develop"];
-  const herotext2 = ["Your", "Childern"];
+  const herotext2 = ["Your"];
+  const herotext3 = ["Childern"];
   const textvariant = {
     initial: {
       opacity: 0,
@@ -32,9 +33,23 @@ export default function HeroSection() {
     animate: (index: number) => ({
       opacity: 1,
       transition: {
-        delay: index * 0.2,
+        delay: 0.8,
       },
     }),
+    exit: {
+      opacity: 0,
+    },
+  };
+  const textvariant3 = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+      transition: {
+        delay: 1,
+      },
+    },
     exit: {
       opacity: 0,
     },
@@ -66,6 +81,20 @@ export default function HeroSection() {
                 initial="initial"
                 animate="animate"
                 custom={index}
+                transition={{
+                  delay: 0.8,
+                }}
+              >
+                {text}
+              </motion.span>
+            ))}
+            {herotext3.map((text, index) => (
+              <motion.span
+                key={index}
+                variants={textvariant3}
+                initial="initial"
+                animate="animate"
+                custom={index}
               >
                 {text}
               </motion.span>
@@ -80,20 +109,37 @@ export default function HeroSection() {
       <section className=" relative h-full ">
         <div className="main-container flex  relative z-10 h-full">
           <div className="flex flex-col gap-4 translate-y-28">
-            <div className={`${pangolin.className} text-xl`}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className={`${pangolin.className} text-xl`}
+            >
               Welcome to The Light
-            </div>
+            </motion.div>
             <div className={`font-extrabold text-6xl`}>
               <HeroAnimate />
             </div>
-            <div className="text-sm">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.3 }}
+              className="text-sm"
+            >
               <p>
                 Holisticly Impact transparent methods of empowerment
                 <br />
                 whereas empowered e-commerce
               </p>
-            </div>
-            <div className="">{MainButton("Book A Visit", "text-xl")}</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 2, ease: "circIn" }}
+              className=""
+            >
+              {MainButton("Book A Visit", "text-xl")}
+            </motion.div>
           </div>
         </div>
         <div className="absolute top-0 w-full h-full">

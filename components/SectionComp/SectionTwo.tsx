@@ -6,8 +6,9 @@ import teacherimg from "@/public/SectionTwoImg/femaleteacher.png";
 import classimg from "@/public/SectionTwoImg/lesson.png";
 import studentimg from "@/public/SectionTwoImg/students.png";
 import { useInView, useMotionValue } from "framer-motion";
-import { useSpring } from "framer-motion";
+import { useSpring, motion } from "framer-motion";
 import { useRef, useEffect } from "react";
+import CountUp from "react-countup";
 
 const CardData = [
   {
@@ -33,30 +34,32 @@ type CardProps = {
   title: string;
 };
 
-function Card({ imgurl, numbers, title }: CardProps) {
-  return (
-    <div className="aspect-square flex flex-col justify-center items-center gap-2 w-[200px] rounded-md bg-yellow-50 p-3">
-      <Image src={imgurl} alt="section two images" width={100} />
-      <div className="font-extrabold text-xl">{numbers}</div>
-      <div className="">{title}</div>
-    </div>
-  );
-}
-
 export default function SectionTwo() {
   const [startcount, setCount] = useState(false);
   const viewRef = useRef(null);
-  const inveiw = useInView(viewRef, { once: true });
+  const inveiw = useInView(viewRef, { once: true, amount: 1 });
   const motionValue = useMotionValue(0);
   const initialCount = useSpring(motionValue);
   useEffect(() => {
-    motionValue.set(100);
-  }, [initialCount]);
+    if (inveiw) {
+      setCount(true);
+    }
+  }, [inveiw]);
   // console.log(initialCount);
+  function Card({ imgurl, numbers, title }: CardProps) {
+    return (
+      <div className="aspect-square flex flex-col justify-center items-center gap-2 w-[200px] rounded-md bg-yellow-50 p-3">
+        <Image src={imgurl} alt="section two images" width={100} />
+        <div className="font-extrabold text-xl">
+          {startcount ? <CountUp start={0} end={numbers} duration={3} /> : 0}
+        </div>
+        <div className="">{title}</div>
+      </div>
+    );
+  }
 
   return (
     <section ref={viewRef} className=" relative h-full mt-[70px] ">
-      <div className="text-xl text-black">{initialCount.get()}</div>
       <div className="main-container w-full   relative z-10 h-full">
         <div className="flex justify-center items-center gap-4 translate-y-[350px]">
           {CardData.map((data, index) => (
