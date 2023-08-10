@@ -111,7 +111,7 @@ function FooterList({ links, title, icon, btn }: footer) {
   return (
     <div className="flex flex-col justify-start gap-2 relative">
       <div className="text-lg">{title}</div>
-      <div className="relative  w-[100px]">
+      <div className="relative ">
         <Image src="/footer_line.png" fill alt="image" />
       </div>
       <ul className="flex flex-col justify-start items-start text-sm">
