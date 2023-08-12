@@ -15,32 +15,32 @@ const NavData = [
   {
     icon: <HiOutlineNewspaper />,
     title: "Pages",
-    link: "/page",
+    link: "/",
   },
   {
     icon: <TfiWrite />,
     title: "Blog",
-    link: "/blog",
+    link: "/",
   },
   {
     icon: <GrContactInfo />,
     title: "Contacts",
-    link: "/contacts",
+    link: "/",
   },
   {
     icon: <GrPlan />,
     title: "Plans",
-    link: "/plans",
+    link: "/",
   },
   {
     icon: <FcAbout />,
     title: "About",
-    link: "/about",
+    link: "/",
   },
   {
     icon: <BiSupport />,
     title: "Support",
-    link: "/support",
+    link: "/",
   },
 ];
 
