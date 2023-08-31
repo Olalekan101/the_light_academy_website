@@ -11,7 +11,7 @@ export default function HeroSection() {
   const [complete, setComplete] = useState(false);
   const herotext = ["We", "Help", "To", "Develop"];
   const herotext2 = ["Your"];
-  const herotext3 = ["Childern"];
+  const herotext3 = ["Child"];
   const textvariant = {
     initial: {
       opacity: 0,
